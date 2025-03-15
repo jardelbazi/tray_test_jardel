@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: tray_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/var/www
+    networks:
+      - tray_network
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: tray_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    networks:
+      - tray_network
+
+  db:
+    image: mysql:8.0
+    container_name: tray_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: tray_root
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_USER: tray_username
+      MYSQL_PASSWORD: tray_password
+      MYSQL_DATABASE: tray_database
+    ports:
+    - "13307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - tray_network
+
+networks:
+  tray_network:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local
