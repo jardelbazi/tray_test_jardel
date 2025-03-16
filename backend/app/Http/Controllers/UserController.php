@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Adapters\User\UserFilterAdapterInterface;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Services\User\UserServiceInterface;
@@ -9,7 +10,8 @@ use App\Services\User\UserServiceInterface;
 class UserController extends Controller
 {
     public function __construct(
-        private UserServiceInterface $userService
+        private UserServiceInterface $userService,
+        private UserFilterAdapterInterface $userFilterAdapter
     ) {}
 
     public function redirectToGoogle()
@@ -19,7 +21,7 @@ class UserController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
-        $user = $this->userService->authenticateWithGoogle($request->get('code'));
+        $user = $this->userService->create($request->get('code'));
         return response()->json(['user' => $user]);
     }
 
@@ -32,9 +34,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->userService->getAll();
+        $filterDTO = $this->userFilterAdapter->fromRequest($request);
+
+        $users = $this->userService->getAll($filterDTO);
+
         return response()->json(['users' => $users]);
     }
 }

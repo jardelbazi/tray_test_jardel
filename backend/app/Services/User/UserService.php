@@ -3,6 +3,7 @@
 namespace App\Services\User;
 
 use App\Adapters\User\UserAdapterInterface;
+use App\DTOs\User\UserFilterDTO;
 use App\DTOs\User\UserUpdateDTO;
 use App\Events\UserCreated;
 use App\Exceptions\UserNotFoundException;
@@ -11,6 +12,7 @@ use App\Http\Requests\UserRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\GoogleAuth\GoogleAuthServiceInterface;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -86,9 +88,8 @@ class UserService implements UserServiceInterface
         }
     }
 
-    public function getAll()
+    public function getAll(?UserFilterDTO $userFilterDTO = null): Collection
     {
-        $users = $this->userRepository->getAll();
-        return $users;
+        return $this->userRepository->getAll($userFilterDTO);
     }
 }

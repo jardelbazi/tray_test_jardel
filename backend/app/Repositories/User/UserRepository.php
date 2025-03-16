@@ -2,11 +2,17 @@
 
 namespace App\Repositories\User;
 
+use App\DTOs\User\UserFilterDTO;
+use App\Interpreters\User\UserFilterInterpreter;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository implements UserRepositoryInterface
 {
+    public function __construct(
+        private UserFilterInterpreter $filterInterpreter,
+    ) {}
+
     public function create(User $user): User
     {
         $user->save();
@@ -24,8 +30,15 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
-    public function getAll(): Collection
+    public function getAll(?UserFilterDTO $userFilterDTO = null): Collection
     {
-        return User::all();
+        $query = User::query();
+
+        if ($userFilterDTO) {
+            $filters = $this->filterInterpreter->interpret($userFilterDTO);
+            $query = $this->filterInterpreter->applyFilters($query, $filters);
+        }
+
+        return $query->get();
     }
 }

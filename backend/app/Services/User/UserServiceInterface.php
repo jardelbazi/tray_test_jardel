@@ -2,8 +2,10 @@
 
 namespace App\Services\User;
 
+use App\DTOs\User\UserFilterDTO;
 use App\DTOs\User\UserUpdateDTO;
 use App\Http\Requests\UserRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 interface UserServiceInterface
 {
@@ -13,5 +15,5 @@ interface UserServiceInterface
 
     public function update(UserRequest $userRequest): UserUpdateDTO;
 
-    public function getAll();
+    public function getAll(?UserFilterDTO $userFilterDTO = null): Collection;
 }

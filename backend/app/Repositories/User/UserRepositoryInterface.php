@@ -2,6 +2,7 @@
 
 namespace App\Repositories\User;
 
+use App\DTOs\User\UserFilterDTO;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -13,5 +14,5 @@ interface UserRepositoryInterface
 
     public function update(User $user, array $data): User;
 
-    public function getAll(): Collection;
+    public function getAll(?UserFilterDTO $userFilterDTO = null): Collection;
 }
