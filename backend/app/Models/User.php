@@ -44,6 +44,22 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'google_id' => 'string',
         ];
+    }
+
+    public function setGoogleIdAttribute($value)
+    {
+        $this->attributes['google_id'] = $value;
+    }
+
+    public function setGoogleTokenAttribute($value)
+    {
+        $this->attributes['google_token'] = $value;
+    }
+
+    public function setBirthDateAttribute($value)
+    {
+        $this->attributes['birth_date'] = $value;
     }
 }
