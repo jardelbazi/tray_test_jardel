@@ -5,7 +5,7 @@ namespace App\Repositories\User;
 use App\DTOs\User\UserFilterDTO;
 use App\Interpreters\User\UserFilterInterpreter;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -30,7 +30,7 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
-    public function getAll(?UserFilterDTO $userFilterDTO = null): Collection
+    public function getAll(?UserFilterDTO $userFilterDTO = null, int $perPage = 50): LengthAwarePaginator
     {
         $query = User::query();
 
@@ -39,6 +39,6 @@ class UserRepository implements UserRepositoryInterface
             $query = $this->filterInterpreter->applyFilters($query, $filters);
         }
 
-        return $query->get();
+        return $query->paginate($perPage);
     }
 }

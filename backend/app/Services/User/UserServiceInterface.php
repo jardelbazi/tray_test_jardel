@@ -5,7 +5,7 @@ namespace App\Services\User;
 use App\DTOs\User\UserFilterDTO;
 use App\DTOs\User\UserUpdateDTO;
 use App\Http\Requests\UserRequest;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface UserServiceInterface
 {
@@ -15,5 +15,5 @@ interface UserServiceInterface
 
     public function update(UserRequest $userRequest): UserUpdateDTO;
 
-    public function getAll(?UserFilterDTO $userFilterDTO = null): Collection;
+    public function getAll(?UserFilterDTO $userFilterDTO = null): LengthAwarePaginator;
 }

@@ -11,8 +11,8 @@ use App\Exceptions\UserServiceException;
 use App\Http\Requests\UserRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\GoogleAuth\GoogleAuthServiceInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Exception;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -88,7 +88,7 @@ class UserService implements UserServiceInterface
         }
     }
 
-    public function getAll(?UserFilterDTO $userFilterDTO = null): Collection
+    public function getAll(?UserFilterDTO $userFilterDTO = null): LengthAwarePaginator
     {
         return $this->userRepository->getAll($userFilterDTO);
     }
