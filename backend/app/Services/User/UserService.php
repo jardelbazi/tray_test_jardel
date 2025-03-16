@@ -4,6 +4,7 @@ namespace App\Services\User;
 
 use App\Adapters\User\UserAdapterInterface;
 use App\DTOs\User\UserUpdateDTO;
+use App\Events\UserCreated;
 use App\Http\Requests\UserRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\GoogleAuth\GoogleAuthServiceInterface;
@@ -32,6 +33,8 @@ class UserService implements UserServiceInterface
         if (blank($user)) {
             $userModel = $this->userAdapter->toModel($userDTO);
             $user = $this->userRepository->create($userModel);
+
+            event(new UserCreated($user));
         }
 
         Auth::login($user);
