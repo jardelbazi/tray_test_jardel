@@ -5,10 +5,14 @@ namespace App\Services\User;
 use App\Adapters\User\UserAdapterInterface;
 use App\DTOs\User\UserUpdateDTO;
 use App\Events\UserCreated;
+use App\Exceptions\UserNotFoundException;
+use App\Exceptions\UserServiceException;
 use App\Http\Requests\UserRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\GoogleAuth\GoogleAuthServiceInterface;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserService implements UserServiceInterface
 {
@@ -23,38 +27,63 @@ class UserService implements UserServiceInterface
         return $this->googleAuthService->getAuthUrl();
     }
 
-    public function authenticateWithGoogle(string $code): UserUpdateDTO
+    public function create(string $code): UserUpdateDTO
     {
-        $googleUserDTO = $this->googleAuthService->fetchGoogleUser($code);
-        $userDTO = $this->userAdapter->toDTO($googleUserDTO);
+        DB::beginTransaction();
 
-        $user = $this->userRepository->getByGoogleId($userDTO->googleId);
+        try {
+            $googleUserDTO = $this->googleAuthService->fetchGoogleUser($code);
+            $userDTO = $this->userAdapter->toDTO($googleUserDTO);
 
-        if (blank($user)) {
-            $userModel = $this->userAdapter->toModel($userDTO);
-            $user = $this->userRepository->create($userModel);
+            $user = $this->userRepository->getByGoogleId($userDTO->googleId);
 
-            event(new UserCreated($user));
+            if (blank($user)) {
+                $userModel = $this->userAdapter->toModel($userDTO);
+                $user = $this->userRepository->create($userModel);
+
+                event(new UserCreated($user));
+            }
+
+            Auth::login($user);
+
+            $userUpdateDTO = $this->userAdapter->fromModel($user);
+            DB::commit();
+
+            return $userUpdateDTO;
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new UserServiceException("Erro ao  criar usuário: " . $e->getMessage(), 0, $e);
         }
-
-        Auth::login($user);
-
-        return $this->userAdapter->fromModel($user);
     }
 
     public function update(UserRequest $userRequest): UserUpdateDTO
     {
-        $userUpdateDTO = $this->userAdapter->fromRequest($userRequest);
-        $user = $this->userRepository->getByGoogleId($userUpdateDTO->googleId);
+        DB::beginTransaction();
 
-        if (blank($user)) {
-            throw new \Exception('Usuário não encontrado');
+        try {
+            $userUpdateDTO = $this->userAdapter->fromRequest($userRequest);
+            $user = $this->userRepository->getByGoogleId($userUpdateDTO->googleId);
+
+            if (blank($user)) {
+                throw new UserNotFoundException('Usuário não encontrado');
+            }
+
+            $userModel = $this->userAdapter->toModel($userUpdateDTO, $user);
+            $updatedUser = $this->userRepository->update($user, $userModel->toArray());
+
+            $userUpdateDTO = $this->userAdapter->fromModel($updatedUser);
+
+            DB::commit();
+
+            return $userUpdateDTO;
+        } catch (UserNotFoundException $e) {
+            DB::rollBack();
+            throw $e;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new UserServiceException("Erro ao atualizar o usuário: " . $e->getMessage(), 0, $e);
         }
-
-        $userModel = $this->userAdapter->toModel($userUpdateDTO, $user);
-        $updatedUser = $this->userRepository->update($user, $userModel->toArray());
-
-        return $this->userAdapter->fromModel($updatedUser);
     }
 
     public function getAll()

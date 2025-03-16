@@ -4,9 +4,11 @@ namespace App\Services\GoogleAuth;
 
 use App\Adapters\GoogleUser\GoogleUserAdapterInterface;
 use App\DTOs\GoogleUser\GoogleUserDTO;
+use App\Exceptions\GoogleAuthException;
 use Google\Client as GoogleClient;
 use Google\Service\Oauth2 as GoogleServiceOauth2;
 use App\Services\GoogleAuth\GoogleAuthServiceInterface;
+use Google\Exception as GoogleException;
 use Google\Service\Oauth2\Userinfo;
 
 class GoogleAuthService implements GoogleAuthServiceInterface
@@ -18,22 +20,39 @@ class GoogleAuthService implements GoogleAuthServiceInterface
 
     public function getAuthUrl(): string
     {
-        return $this->client->createAuthUrl();
+        try {
+            return $this->client->createAuthUrl();
+        } catch (GoogleException $e) {
+            throw new GoogleAuthException('Erro ao gerar URL de autenticação do Google', 0, $e);
+        }
     }
 
     public function fetchGoogleUser(string $code): GoogleUserDTO
     {
-        $token = $this->client->fetchAccessTokenWithAuthCode($code);
-        $this->client->setAccessToken($token);
+        try {
+            $token = $this->client->fetchAccessTokenWithAuthCode($code);
 
-        $googleUser = $this->getGoogleUser();
+            if (isset($token['error'])) {
+                throw new GoogleAuthException('Erro ao obter token do Google: ' . $token['error']);
+            }
 
-        return $this->adapter->userInfoToDTO($googleUser, $token);
+            $this->client->setAccessToken($token);
+
+            $googleUser = $this->getGoogleUser();
+
+            return $this->adapter->userInfoToDTO($googleUser, $token);
+        } catch (GoogleException $e) {
+            throw new GoogleAuthException('Erro ao buscar usuário do Google', 0, $e);
+        }
     }
 
     private function getGoogleUser(): UserInfo
     {
-        $oauth2Service = new GoogleServiceOauth2($this->client);
-        return $oauth2Service->userinfo->get();
+        try {
+            $oauth2Service = new GoogleServiceOauth2($this->client);
+            return $oauth2Service->userinfo->get();
+        } catch (GoogleException $e) {
+            throw new GoogleAuthException('Erro ao obter informações do usuário do Google', 0, $e);
+        }
     }
 }

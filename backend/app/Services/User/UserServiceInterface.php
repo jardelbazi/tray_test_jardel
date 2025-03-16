@@ -9,7 +9,7 @@ interface UserServiceInterface
 {
     public function getGoogleAuthUrl(): string;
 
-    public function authenticateWithGoogle(string $code): UserUpdateDTO;
+    public function create(string $code): UserUpdateDTO;
 
     public function update(UserRequest $userRequest): UserUpdateDTO;
 
