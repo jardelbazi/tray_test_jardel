@@ -38,6 +38,12 @@ Execute as migrações do banco de dados:
 php artisan migrate
 ```
 
+Para processar as filas
+```sh
+php artisan queue:work
+
+```
+
 ## Configuração do Frontend
 
 acesse a pasta do frontend:
