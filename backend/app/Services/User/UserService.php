@@ -121,10 +121,6 @@ class UserService implements UserServiceInterface
      */
     public function getAll(?UserFilterDTO $userFilterDTO = null): LengthAwarePaginator
     {
-        $cacheKey = 'users_all_' . md5(json_encode($userFilterDTO));
-
-        return cache()->remember($cacheKey, 3600, function () use ($userFilterDTO) {
-            return $this->userRepository->getAll($userFilterDTO);
-        });
+        return $this->userRepository->getAll($userFilterDTO);
     }
 }
