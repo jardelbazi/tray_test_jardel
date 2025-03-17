@@ -28,6 +28,11 @@ Instale as dependências do Laravel:
 composer install
 ```
 
+gerar APP_KEY:
+```sh
+php artisan key:generate
+```
+
 Execute as migrações do banco de dados:
 ```sh
 php artisan migrate
@@ -35,7 +40,7 @@ php artisan migrate
 
 ## Configuração do Frontend
 
-Saia do container e acesse a pasta do frontend:
+acesse a pasta do frontend:
 ```sh
 cd frontend
 ```
