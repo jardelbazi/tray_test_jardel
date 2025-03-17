@@ -11,13 +11,32 @@ use App\Services\GoogleAuth\GoogleAuthServiceInterface;
 use Google\Exception as GoogleException;
 use Google\Service\Oauth2\Userinfo;
 
+/**
+ * Class GoogleAuthService
+ *
+ * Serviço responsável pela autenticação com o Google.
+ * Contém métodos para gerar a URL de autenticação e buscar as informações do usuário
+ * autenticado através do código de autorização obtido após o login.
+ *
+ * @package App\Services\GoogleAuth
+ */
 class GoogleAuthService implements GoogleAuthServiceInterface
 {
+    /**
+     * Construtor do serviço de autenticação do Google.
+     *
+     * @param GoogleClient $client O cliente da API do Google utilizado para interagir com os serviços do Google.
+     * @param GoogleUserAdapterInterface $adapter O adaptador que converte as informações do usuário do Google para o DTO.
+     */
     public function __construct(
         private GoogleClient $client,
         private GoogleUserAdapterInterface $adapter
     ) {}
 
+    /**
+     * {@inheritDoc}
+     * @throws GoogleAuthException Se houver um erro ao gerar a URL de autenticação.
+     */
     public function getAuthUrl(): string
     {
         try {
@@ -27,6 +46,10 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws GoogleAuthException Se houver um erro ao buscar o token ou as informações do usuário.
+     */
     public function fetchGoogleUser(string $code): GoogleUserDTO
     {
         try {
@@ -46,6 +69,10 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws GoogleAuthException Se houver um erro ao buscar as informações do usuário do Google.
+     */
     private function getGoogleUser(): UserInfo
     {
         try {

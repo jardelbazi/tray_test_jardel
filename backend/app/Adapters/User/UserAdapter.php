@@ -8,8 +8,20 @@ use App\DTOs\User\UserUpdateDTO;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 
+/**
+ * Class UserAdapter
+ *
+ * Implementa a interface UserAdapterInterface, responsável por adaptar as informações de usuário
+ * entre modelos e DTOs, incluindo a conversão de dados entre o modelo User, GoogleUserDTO e UserDTO,
+ * bem como a transformação de dados de requisições para DTOs de usuário.
+ *
+ * @package App\Adapters\User
+ */
 class UserAdapter implements UserAdapterInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function toModel(UserDTO $userDTO, ?User $user = null): User
     {
         $userModel = new User();
@@ -25,6 +37,9 @@ class UserAdapter implements UserAdapterInterface
         return $userModel;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function toDTO(GoogleUserDTO $googleUser): UserDTO
     {
         return new UserDTO(
@@ -35,6 +50,9 @@ class UserAdapter implements UserAdapterInterface
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function fromModel(User $user): UserUpdateDTO
     {
         return new UserUpdateDTO(
@@ -48,6 +66,9 @@ class UserAdapter implements UserAdapterInterface
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function fromRequest(UserRequest $request): UserDTO
     {
         return new UserDTO(

@@ -48,17 +48,41 @@ class User extends Authenticatable
         ];
     }
 
-    public function setGoogleIdAttribute($value)
+    /**
+     * Define o valor do atributo `google_id`.
+     *
+     * Método para definir o valor do campo `google_id` antes de atribuí-lo ao banco de dados.
+     *
+     * @param mixed $value O valor a ser atribuído ao atributo `google_id`.
+     * @return void
+     */
+    public function setGoogleIdAttribute($value): void
     {
         $this->attributes['google_id'] = $value;
     }
 
-    public function setGoogleTokenAttribute($value)
+    /**
+     * Define o valor do atributo `google_token`.
+     *
+     * Método para definir o valor do campo `google_token` antes de atribuí-lo ao banco de dados.
+     *
+     * @param mixed $value O valor a ser atribuído ao atributo `google_token`.
+     * @return void
+     */
+    public function setGoogleTokenAttribute($value): void
     {
         $this->attributes['google_token'] = $value;
     }
 
-    public function setBirthDateAttribute($value)
+    /**
+     * Define o valor do atributo `birth_date`.
+     *
+     * Método para definir o valor do campo `birth_date` antes de atribuí-lo ao banco de dados.
+     *
+     * @param mixed $value O valor a ser atribuído ao atributo `birth_date`.
+     * @return void
+     */
+    public function setBirthDateAttribute($value): void
     {
         $this->attributes['birth_date'] = $value;
     }

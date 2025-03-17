@@ -7,8 +7,25 @@ use Exception;
 use Google\Client as GoogleClient;
 use Google\Service\Oauth2 as GoogleServiceOauth2;
 
+/**
+ * Class GoogleClientFactory
+ *
+ * Fábrica para instanciar e configurar um cliente do Google.
+ * Essa classe encapsula a lógica de criação do cliente do Google,
+ * garantindo que as credenciais estejam configuradas corretamente.
+ *
+ * @package App\Factories
+ */
 class GoogleClientFactory
 {
+    /**
+     * Cria e retorna uma instância do GoogleClient configurada.
+     *
+     * @throws GoogleClientException Se as credenciais do Google estiverem ausentes.
+     * @throws Exception Se houver falha ao criar o cliente do Google.
+     *
+     * @return GoogleClient Cliente do Google configurado.
+     */
     public static function create(): GoogleClient
     {
         try {

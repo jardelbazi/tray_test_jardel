@@ -16,19 +16,42 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class UserService
+ *
+ * Implementação do serviço de gerenciamento de usuários, incluindo criação, atualização,
+ * autenticação e listagem de usuários. Este serviço também lida com a autenticação do
+ * Google e interage com o repositório de usuários, adaptadores e serviços relacionados.
+ *
+ * @package App\Services\User
+ */
 class UserService implements UserServiceInterface
 {
+    /**
+     * Construtor da classe UserService.
+     *
+     * @param UserRepositoryInterface $userRepository Repositório responsável pelas operações com o banco de dados de usuários.
+     * @param GoogleAuthServiceInterface $googleAuthService Serviço responsável pela autenticação via Google.
+     * @param UserAdapterInterface $userAdapter Adaptador para conversão entre diferentes representações de usuário (DTO, Model).
+     */
     public function __construct(
         private UserRepositoryInterface $userRepository,
         private GoogleAuthServiceInterface $googleAuthService,
         private UserAdapterInterface $userAdapter,
     ) {}
 
+    /**
+     * {@inheritDoc}
+     */
     public function getGoogleAuthUrl(): string
     {
         return $this->googleAuthService->getAuthUrl();
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws UserServiceException Caso ocorra um erro durante a criação do usuário.
+     */
     public function create(string $code): UserUpdateDTO
     {
         DB::beginTransaction();
@@ -59,6 +82,11 @@ class UserService implements UserServiceInterface
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws UserNotFoundException Se o usuário não for encontrado.
+     * @throws UserServiceException Se ocorrer algum erro durante a atualização do usuário.
+     */
     public function update(UserRequest $userRequest): UserUpdateDTO
     {
         DB::beginTransaction();
@@ -88,6 +116,9 @@ class UserService implements UserServiceInterface
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAll(?UserFilterDTO $userFilterDTO = null): LengthAwarePaginator
     {
         $cacheKey = 'users_all_' . md5(json_encode($userFilterDTO));
