@@ -1,5 +1,4 @@
-# Usar uma imagem base do Node.js v23.10.0
-FROM node:23.10.0-alpine
+FROM node:22
 
 # Definir o diretório de trabalho dentro do container
 WORKDIR /app
