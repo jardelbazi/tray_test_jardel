@@ -9,7 +9,7 @@
 <script setup lang="ts">
     import { useRoute, useRouter } from 'vue-router';
     import { onMounted } from 'vue';
-    import { config } from '@/config';
+    import { config } from "@/config";
     import CardBox from "@/components/CardBox.vue";
 
     const route = useRoute();

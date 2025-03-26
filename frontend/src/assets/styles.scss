@@ -40,8 +40,8 @@ $secondary-color: #1DD3B0;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #fff;
-        color: #333;
+        background: #ffffff;
+        color: #333333;
         font-size: 1rem;
         font-weight: bold;
         padding: 0.75rem 1.5rem;
@@ -58,11 +58,12 @@ $secondary-color: #1DD3B0;
         }
 
         &:hover {
-            background: #f1f1f1;
+            background: #ffffff;
         }
     }
 }
 
+/* Error message */
 .error-message {
     background-color: #f8d7da;
     color: #721c24;
@@ -74,6 +75,7 @@ $secondary-color: #1DD3B0;
     text-align: center;
 }
 
+/* Page GoogleAuthRedirect */
 .auth-content {
     .loading-spinner {
         width: 50px;
@@ -89,4 +91,21 @@ $secondary-color: #1DD3B0;
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+}
+
+/* Page UserProfile */
+.profile-content {
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    button {
+        background: $primary-color;
+        color: #ffffff;
+
+        &:hover {
+            background: #ffffff;
+            color: $primary-color;
+        }
+    }
 }
