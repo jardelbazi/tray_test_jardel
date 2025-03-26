@@ -38,6 +38,12 @@ Execute as migrações do banco de dados:
 php artisan migrate
 ```
 
+Para processar as filas
+```sh
+php artisan queue:work
+
+```
+
 ## Configuração do Frontend
 
 acesse a pasta do frontend:
@@ -50,3 +56,5 @@ Instale as dependências do Node.js:
 npm install
 ```
 
+## Sobre o Projeto
+Desenvolvi utilizando alguns design patterns como adapters, factoies, interpreters, camadas de dto, service, repostitory, envio de emails com fila com event listeners. A parte dos testes não consegui finalizar e nem o front-end.
