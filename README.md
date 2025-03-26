@@ -23,6 +23,12 @@ Renomeie o arquivo de exemplo do ambiente:
 mv .env.example .env
 ```
 
+Informar Google Client Id e Cliente Secret do Google Api Auth2:
+```sh
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
+
 Instale as dependências do Laravel:
 ```sh
 composer install
