@@ -8,6 +8,18 @@ git clone https://github.com/jardelbazi/tray_test_jardel.git
 cd tray_test_jardel
 ```
 
+## Configuração do Frontend
+
+acesse a pasta do frontend:
+```sh
+cd frontend
+```
+
+Instale as dependências do Node.js:
+```sh
+npm install
+```
+
 Suba os containers com Docker:
 ```sh
 docker-compose up -d --build
@@ -49,18 +61,3 @@ Para processar as filas
 php artisan queue:work
 
 ```
-
-## Configuração do Frontend
-
-acesse a pasta do frontend:
-```sh
-cd frontend
-```
-
-Instale as dependências do Node.js:
-```sh
-npm install
-```
-
-## Sobre o Projeto
-Desenvolvi utilizando alguns design patterns como adapters, factoies, interpreters, camadas de dto, service, repostitory, envio de emails com fila com event listeners. A parte dos testes não consegui finalizar e nem o front-end.
