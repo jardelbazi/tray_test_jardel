@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class GoogleIdRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,20 +21,9 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => "required|string|email|max:255|unique:users,id,{$this->route('id')}",
-            'birth_date' => 'required|date_format:Y-m-d|before:today',
-            'cpf' => 'required|string|cpf|unique:users',
+        return [
+            'googleId' => 'required|string|exists:users,google_id',
         ];
-
-        if (filled($this->googleId)) {
-            $rules = [
-                'googleId' => 'required|string|exists:users,google_id',
-            ];
-        }
-
-        return $rules;
     }
 
     protected function prepareForValidation(): void

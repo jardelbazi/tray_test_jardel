@@ -59,4 +59,15 @@ interface UserServiceInterface
      * @return LengthAwarePaginator A lista paginada de usuários.
      */
     public function getAll(?UserFilterDTO $userFilterDTO = null): LengthAwarePaginator;
+
+    /**
+     * Recupera um único usuário com base nos critérios fornecidos.
+     *
+     * Este método recebe um DTO de filtro contendo os critérios de busca
+     * e retorna um DTO atualizado do usuário correspondente.
+     *
+     * @param UserFilterDTO $userFilterDTO Objeto contendo os critérios de filtro do usuário.
+     * @return UserUpdateDTO Retorna os dados atualizados do usuário encontrado.
+     */
+    public function getOne(UserFilterDTO $userFilterDTO): UserUpdateDTO;
 }

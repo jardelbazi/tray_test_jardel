@@ -100,6 +100,8 @@ class UserService implements UserServiceInterface
             }
 
             $userModel = $this->userAdapter->toModel($userUpdateDTO, $user);
+
+            dd($userModel);
             $updatedUser = $this->userRepository->update($user, $userModel->toArray());
 
             $userUpdateDTO = $this->userAdapter->fromModel($updatedUser);
@@ -122,5 +124,14 @@ class UserService implements UserServiceInterface
     public function getAll(?UserFilterDTO $userFilterDTO = null): LengthAwarePaginator
     {
         return $this->userRepository->getAll($userFilterDTO);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOne(UserFilterDTO $userFilterDTO): UserUpdateDTO
+    {
+        $user = $this->userRepository->getByGoogleId($userFilterDTO->googleId);
+        return $this->userAdapter->fromModel($user);
     }
 }

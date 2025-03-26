@@ -20,9 +20,11 @@ class UserFilterDTO extends FilterDTO
      *
      * @param string|null $name O nome do usuário para filtrar (opcional).
      * @param string|null $cpf O CPF do usuário para filtrar (opcional).
+     * @param string|null $googleId O googleId do usuário para filtrar (opcional).
      */
     public function __construct(
         public ?string $name = null,
         public ?string $cpf = null,
+        public ?string $googleId = null,
     ) {}
 }

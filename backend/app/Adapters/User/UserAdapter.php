@@ -72,7 +72,7 @@ class UserAdapter implements UserAdapterInterface
     public function fromRequest(UserRequest $request): UserDTO
     {
         return new UserDTO(
-            googleId: $request->route('id'),
+            googleId: $request->googleId,
             name: $request->name,
             email: $request->email,
             birthDate: $request->birth_date,

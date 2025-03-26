@@ -24,7 +24,8 @@ class UserFilterAdapter implements UserFilterAdapterInterface
     {
         return new UserFilterDTO(
             name: $request->name,
-            cpf: $request->cpf
+            cpf: $request->cpf,
+            googleId: $request->googleId,
         );
     }
 }

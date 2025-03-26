@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Adapters\User\UserFilterAdapterInterface;
+use App\Http\Requests\GoogleIdRequest;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Services\User\UserServiceInterface;
@@ -68,5 +69,24 @@ class UserController extends Controller
         $users = $this->userService->getAll($filterDTO);
 
         return response()->json(['users' => $users]);
+    }
+
+    /**
+     * Obtém um usuário com base no Google ID fornecido na requisição.
+     *
+     * Este método converte a requisição em um DTO de filtro, consulta o serviço
+     * de usuário para recuperar um único usuário correspondente e retorna os
+     * dados em formato JSON.
+     *
+     * @param GoogleIdRequest $request A requisição contendo o Google ID do usuário.
+     * @return JsonResponse Retorna os dados do usuário encontrado.
+     */
+    public function getUser(GoogleIdRequest $request)
+    {
+        $filterDTO = $this->userFilterAdapter->fromRequest($request);
+
+        $user = $this->userService->getOne($filterDTO);
+
+        return response()->json($user);
     }
 }

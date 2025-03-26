@@ -9,6 +9,6 @@ Route::middleware('api')->get('/ping', function () {
 
 Route::get('/auth/google', [UserController::class, 'redirectToGoogle']);
 Route::get('/auth/callback', [UserController::class, 'handleGoogleCallback']);
-Route::get('/user', [UserController::class, 'getUser'])->middleware('auth');
-Route::patch('/user/update/{id}', [UserController::class, 'update']);
+Route::get('/user/{googleId}', [UserController::class, 'getUser']);
+Route::put('/user/update/{googleId}', [UserController::class, 'update']);
 Route::get('/users', [UserController::class, 'index']);
