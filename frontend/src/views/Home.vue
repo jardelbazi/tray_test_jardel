@@ -12,11 +12,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import CardBox from "@/components/CardBox.vue"; // Importe o componente CenteredBox
 import { config } from '@/config';
 
 const errorMessage = ref<string | null>(null);
+
+onMounted(() => {
+    errorMessage.value = localStorage.getItem('errorMessage');
+
+    if (errorMessage.value) {
+        localStorage.removeItem('errorMessage');
+    }
+});
 
 const loginWithGoogle = async () => {
     errorMessage.value = null;
