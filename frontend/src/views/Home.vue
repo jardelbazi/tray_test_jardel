@@ -1,7 +1,6 @@
 <template>
-    <div class="welcome-container">
+    <CardBox title="Bem-vindo">
         <div class="welcome-content">
-            <h1>Bem-vindo</h1>
             <button class="button" @click="loginWithGoogle">
                 <img src="@/assets/google-icon.svg" alt="Google Icon" />
                 Login com Google
@@ -9,17 +8,18 @@
         </div>
 
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-    </div>
+    </CardBox>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import CardBox from "@/components/CardBox.vue"; // Importe o componente CenteredBox
 import { config } from '@/config';
 
 const errorMessage = ref<string | null>(null);
 
 const loginWithGoogle = async () => {
-    errorMessage.value = null; 
+    errorMessage.value = null;
 
     try {
         const response = await fetch(`${config.apiUrl}/auth/google`);

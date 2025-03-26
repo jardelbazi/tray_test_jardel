@@ -6,8 +6,8 @@ $secondary-color: #1DD3B0;
     height: 100vh;
 }
 
-/* Welcome */
-.welcome-container {
+/* Component: CardBox */
+.card-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,7 +15,7 @@ $secondary-color: #1DD3B0;
     height: 100vh;
     padding: 0 20px;
 
-    .welcome-content {
+    .card-box-content {
         text-align: center;
         background: rgba(255, 255, 255, 0.2);
         padding: 2rem;
@@ -28,31 +28,34 @@ $secondary-color: #1DD3B0;
             color: #fff;
             margin-bottom: 1.5rem;
         }
+    }
+}
 
-        .button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            color: #333;
-            font-size: 1rem;
-            font-weight: bold;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            gap: 10px;
+/* Page Home: Welcome */
+.welcome-content {
+    .button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        color: #333;
+        font-size: 1rem;
+        font-weight: bold;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        gap: 10px;
 
-            img {
-                width: 20px;
-                height: 20px;
-            }
+        img {
+            width: 20px;
+            height: 20px;
+        }
 
-            &:hover {
-                background: #f1f1f1;
-            }
+        &:hover {
+            background: #f1f1f1;
         }
     }
 
@@ -67,3 +70,4 @@ $secondary-color: #1DD3B0;
         text-align: center;
     }
 }
+
